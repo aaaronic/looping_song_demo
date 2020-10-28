@@ -1,4 +1,4 @@
-#include "myLib.h"
+#include "mylib.h"
 
 // The start of the video memory
 unsigned short *videoBuffer = (unsigned short *)0x6000000;

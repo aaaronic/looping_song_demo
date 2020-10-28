@@ -5,8 +5,8 @@
  */
 
 #include "mylib.h"
-#include "theFutureSoon.h"
 #include "dummyBg.h"
+#include "thriller.h"
 
 #define START_ON_FIFO_EMPTY 0x30000000
 
@@ -14,12 +14,13 @@ unsigned int vBlankCount;
 unsigned int start;
 unsigned int songLength;
 
+void playThriller() {
+  songLength = VBLANK_FREQ * thriller_length / thriller_sampleRate;
 
-void playSong() {
-  REG_TM0D = 65536 - (1 << 24) / theFutureSoon_sampleRate;
+  REG_TM0D = 65536 - (1 << 24) / thriller_sampleRate;
   REG_TM0CNT = TIMER_ON;
 
-  DMANow(1, theFutureSoon_data, REG_FIFO_A,
+  DMANow(1, thriller_data, REG_FIFO_A,
     START_ON_FIFO_EMPTY |
     DMA_DESTINATION_FIXED |
     DMA_32 |
@@ -40,7 +41,7 @@ void interruptHandler(void) {
       vBlankCount++;
       if (vBlankCount % 8 == 0) PALETTE[1]++; // vBlankCountingIsWorking
       if((vBlankCount - start) > songLength)  {
-        playSong(); // loop the song forever
+        playThriller(); // loop the song forever
       }
    }
    REG_IF = REG_IF;
@@ -83,9 +84,7 @@ int main(){
   // start counting vBlanks
   setupInterrupts();
 
-  songLength = VBLANK_FREQ * theFutureSoon_length / theFutureSoon_sampleRate;
-
-  playSong();
+  playThriller();
   
   // dummy background
   DMANow(3, dummyBgPal, PALETTE, 256);
