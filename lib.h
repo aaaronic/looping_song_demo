@@ -1,5 +1,5 @@
-#ifndef MY_LIB_H
-#define MY_LIB_H
+#ifndef LIB_H
+#define LIB_H
 
 // Common Typedefs
 typedef unsigned char u8;
@@ -275,7 +275,7 @@ void DMANow(int channel, volatile const void *src, volatile void *dst, unsigned 
 #define TM_FREQ_1024  3
 
 // Time factors to multiply clock ticks to convert to microsec (usec)
-// The next line (uncommented) should be in myLib.c
+// The next line (uncommented) should be in lib.c
 // double timefactors[] = {0.059604, 3.811, 15.259, 59.382};
 // extern double timefactors[];
 
